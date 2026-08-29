@@ -1,0 +1,4 @@
+2026-08-29 14:02:49  openbacktest.core         INFO      OpenBacktest.ai started (demo=True)
+2026-08-29 14:02:53  openbacktest.ccxt         INFO      Downloaded 3163 candles for BTC/USDT
+2026-08-29 14:02:57  openbacktest.ccxt         INFO      Downloaded 3163 candles for ETH/USDT
+2026-08-29 14:03:00  openbacktest.ccxt         INFO      Downloaded 2613 candles for DOGE/USDT

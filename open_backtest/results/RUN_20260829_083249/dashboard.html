@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { background-color: #fefefe; font-family: 'Inter', sans-serif; -ms-overflow-style: none; scrollbar-width: none; }
+        .card { background-color: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; padding: 24px; }
+        .stat-value { font-size: 24px; font-weight: 700; color: inherit; }
+        .stat-label { font-size: 13px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .apexcharts-tooltip { background: #1e293b !important; color: white !important; border: none !important; border-radius: 8px !important; box-shadow: 0 4px 6px rgba(0,0,0,0.3) !important; }
+        .apexcharts-tooltip-title { background: #0f172a !important; border-bottom: 1px solid #334155 !important; font-family: 'Inter', sans-serif !important; font-weight: 600 !important; }
+    </style>
+</head>
+<body class="p-2">
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-800">Analytics Dashboard <span class="text-emerald-600">— BTC/USDT</span></h1>
+                <p class="text-slate-500 font-medium text-sm mt-1">Cumulative Backtest: 2018-01-01 to 2026-08-29</p>
+            </div>
+            <div class="text-emerald-600 font-semibold flex items-center bg-emerald-50 px-3 py-1 rounded-full text-sm border">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                3162 Days Analyzed
+            </div>
+        </div>
+
+        <!-- Top Metrics -->
+        <div class="grid grid-cols-4 gap-4">
+            <div class="card p-5">
+                <div class="stat-label mb-1">Cumulative Return</div>
+                <div class="stat-value text-emerald-600">+1460.32%</div>
+            </div>
+            <div class="card p-5">
+                <div class="stat-label mb-1">Total Charges (Fees+Slip)</div>
+                <div class="stat-value text-red-500">-$8,640.40</div>
+            </div>
+            <div class="card p-5">
+                <div class="stat-label mb-1">Total Trades</div>
+                <div class="stat-value text-slate-800">57</div>
+            </div>
+            <div class="card p-5">
+                <div class="stat-label mb-1">Hit Rate (Win %)</div>
+                <div class="stat-value text-slate-800">36.8%</div>
+            </div>
+        </div>
+
+        <!-- Main Charts Area -->
+        <div class="grid grid-cols-12 gap-6">
+            
+            <!-- Donut -->
+            <div class="col-span-5 card flex flex-col items-center justify-center p-6">
+                <h3 class="w-full text-left font-bold text-slate-800 mb-2">Hit / Win Rate</h3>
+                <div id="donutChart" class="w-full mt-4 flex justify-center"></div>
+            </div>
+
+            <!-- Performance Table -->
+            <div class="col-span-7 card p-6">
+                <h3 class="font-bold text-slate-800 mb-4">Cumulative Performance & Charges</h3>
+                <table class="w-full text-sm">
+                    <tbody>
+                        <tr class="border-b border-slate-100"><td class="py-2.5 text-slate-500">Gross P&L</td><td class="py-2.5 text-right font-semibold text-slate-800">$147,733.47</td></tr>
+                        <tr class="border-b border-slate-100"><td class="py-2.5 text-slate-500 text-red-500 font-medium">Real Charges (Fees/Slip)</td><td class="py-2.5 text-right font-semibold text-red-500">-$8,640.40</td></tr>
+                        <tr class="border-b border-slate-100"><td class="py-2.5 text-slate-500 font-bold">Net P&L</td><td class="py-2.5 text-right font-bold text-emerald-600">+$139,093.07</td></tr>
+                        <tr class="border-b border-slate-100"><td class="py-2.5 text-slate-500">Profit Factor</td><td class="py-2.5 text-right font-semibold text-slate-800">2.03</td></tr>
+                        <tr class="border-b border-slate-100"><td class="py-2.5 text-slate-500">Sharpe Ratio</td><td class="py-2.5 text-right font-semibold text-slate-800">3.85</td></tr>
+                        <tr class="border-b border-slate-100"><td class="py-2.5 text-slate-500">Max Drawdown</td><td class="py-2.5 text-right font-semibold text-red-500">-51.30%</td></tr>
+                        <tr><td class="py-2.5 text-slate-500">Expectancy</td><td class="py-2.5 text-right font-semibold text-slate-800">$2,440.23</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Monthly Returns Heatmap (Advanced Visualization) -->
+        <div class="card">
+            <h3 class="font-bold text-slate-800 mb-2">Monthly Returns Heatmap (%)</h3>
+            <div id="heatmapChart" class="w-full h-[350px]"></div>
+        </div>
+
+        <!-- Equity Curve -->
+        <div class="card">
+            <h3 class="font-bold text-slate-800 mb-2">Cumulative Equity Curve</h3>
+            <div id="equityChart" class="w-full h-[300px]"></div>
+        </div>
+
+        <!-- Detailed Analytics section -->
+        <div class="grid grid-cols-2 gap-6">
+            <div class="card flex flex-col">
+                <h3 class="font-bold text-slate-800 mb-2">Underwater Drawdown Curve</h3>
+                <div id="drawdownChart" class="w-full h-[250px]"></div>
+            </div>
+            <div class="card flex flex-col">
+                <h3 class="font-bold text-slate-800 mb-2">Month-wise Returns (%)</h3>
+                <div id="monthlyChart" class="w-full h-[250px]"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const chartOptions = {
+            fontFamily: 'Inter, sans-serif',
+            toolbar: { show: false },
+            animations: { enabled: true, easing: 'easeinout', speed: 800 },
+            theme: { mode: 'light' },
+            background: 'transparent'
+        };
+
+        // Pie/Donut Chart for Hit Rate
+        new ApexCharts(document.querySelector("#donutChart"), {
+            ...chartOptions,
+            series: [36.8, 63.2],
+            labels: ['Wins (%)', 'Losses (%)'],
+            chart: { type: 'pie', height: 260 },
+            colors: ['#10b981', '#ef4444'],
+            plotOptions: {
+                pie: {
+                    dataLabels: { offset: -20 },
+                }
+            },
+            dataLabels: { 
+                enabled: true, 
+                formatter: function (val) { return val.toFixed(1) + "%" },
+                style: { fontSize: '14px', fontWeight: 'bold' }
+            },
+            stroke: { width: 2, colors: ['#fff'] },
+            legend: { position: 'bottom' }
+        }).render();
+
+        // Heatmap Chart for Monthly Returns
+        new ApexCharts(document.querySelector("#heatmapChart"), {
+            ...chartOptions,
+            series: [{"name": "2026", "data": [{"x": "Jan", "y": -1.15}, {"x": "Feb", "y": 0.0}, {"x": "Mar", "y": -5.36}, {"x": "Apr", "y": 7.93}, {"x": "May", "y": -0.67}, {"x": "Jun", "y": 0.0}, {"x": "Jul", "y": -0.29}, {"x": "Aug", "y": 6.45}, {"x": "Sep", "y": null}, {"x": "Oct", "y": null}, {"x": "Nov", "y": null}, {"x": "Dec", "y": null}]}, {"name": "2025", "data": [{"x": "Jan", "y": -13.98}, {"x": "Feb", "y": -5.52}, {"x": "Mar", "y": 0.0}, {"x": "Apr", "y": 0.2}, {"x": "May", "y": 25.86}, {"x": "Jun", "y": -4.23}, {"x": "Jul", "y": 10.9}, {"x": "Aug", "y": -7.29}, {"x": "Sep", "y": -2.66}, {"x": "Oct", "y": -7.14}, {"x": "Nov", "y": 0.0}, {"x": "Dec", "y": 0.0}]}, {"name": "2024", "data": [{"x": "Jan", "y": 11.49}, {"x": "Feb", "y": 3.61}, {"x": "Mar", "y": 46.66}, {"x": "Apr", "y": -11.75}, {"x": "May", "y": 2.48}, {"x": "Jun", "y": 1.02}, {"x": "Jul", "y": 0.0}, {"x": "Aug", "y": -6.1}, {"x": "Sep", "y": -6.66}, {"x": "Oct", "y": 6.16}, {"x": "Nov", "y": 30.77}, {"x": "Dec", "y": 15.93}]}, {"name": "2023", "data": [{"x": "Jan", "y": -2.55}, {"x": "Feb", "y": 32.51}, {"x": "Mar", "y": -3.93}, {"x": "Apr", "y": 13.37}, {"x": "May", "y": -6.61}, {"x": "Jun", "y": 0.0}, {"x": "Jul", "y": 5.84}, {"x": "Aug", "y": -3.0}, {"x": "Sep", "y": 0.0}, {"x": "Oct", "y": -2.21}, {"x": "Nov", "y": 32.61}, {"x": "Dec", "y": 9.8}]}, {"name": "2022", "data": [{"x": "Jan", "y": 0.0}, {"x": "Feb", "y": -11.27}, {"x": "Mar", "y": -5.18}, {"x": "Apr", "y": null}, {"x": "May", "y": -6.72}, {"x": "Jun", "y": 0.0}, {"x": "Jul", "y": 0.0}, {"x": "Aug", "y": -1.62}, {"x": "Sep", "y": -8.46}, {"x": "Oct", "y": -9.01}, {"x": "Nov", "y": -1.51}, {"x": "Dec", "y": -19.13}]}, {"name": "2021", "data": [{"x": "Jan", "y": 33.97}, {"x": "Feb", "y": 63.38}, {"x": "Mar", "y": -8.32}, {"x": "Apr", "y": 2.59}, {"x": "May", "y": -12.14}, {"x": "Jun", "y": 0.0}, {"x": "Jul", "y": -0.04}, {"x": "Aug", "y": 23.22}, {"x": "Sep", "y": -12.91}, {"x": "Oct", "y": 19.02}, {"x": "Nov", "y": -2.43}, {"x": "Dec", "y": 0.0}]}, {"name": "2020", "data": [{"x": "Jan", "y": 12.29}, {"x": "Feb", "y": 11.19}, {"x": "Mar", "y": -10.44}, {"x": "Apr", "y": -3.76}, {"x": "May", "y": 34.51}, {"x": "Jun", "y": -3.3}, {"x": "Jul", "y": -3.92}, {"x": "Aug", "y": 21.09}, {"x": "Sep", "y": -12.63}, {"x": "Oct", "y": 8.06}, {"x": "Nov", "y": 51.4}, {"x": "Dec", "y": 20.45}]}, {"name": "2019", "data": [{"x": "Jan", "y": -0.78}, {"x": "Feb", "y": -8.09}, {"x": "Mar", "y": 4.64}, {"x": "Apr", "y": 26.77}, {"x": "May", "y": 35.93}, {"x": "Jun", "y": 15.73}, {"x": "Jul", "y": 37.81}, {"x": "Aug", "y": -16.62}, {"x": "Sep", "y": -7.1}, {"x": "Oct", "y": -0.82}, {"x": "Nov", "y": -8.38}, {"x": "Dec", "y": -1.85}]}, {"name": "2018", "data": [{"x": "Jan", "y": null}, {"x": "Feb", "y": 0.0}, {"x": "Mar", "y": 2.87}, {"x": "Apr", "y": -17.97}, {"x": "May", "y": 20.02}, {"x": "Jun", "y": -11.05}, {"x": "Jul", "y": 0.0}, {"x": "Aug", "y": -9.57}, {"x": "Sep", "y": -7.17}, {"x": "Oct", "y": -6.04}, {"x": "Nov", "y": -7.98}, {"x": "Dec", "y": 0.0}]}],
+            chart: { type: 'heatmap', height: 350, toolbar: { show: false } },
+            plotOptions: {
+                heatmap: {
+                    shadeIntensity: 0.8,
+                    radius: 4,
+                    colorScale: {
+                        ranges: [
+                            
+                            { from: -1000, to: -20, color: '#7f1d1d', name: 'Heavy Loss (<-20%)' },
+                            { from: -20, to: -5, color: '#b91c1c', name: 'Loss (-5% to -20%)' },
+                            { from: -5, to: -0.01, color: '#f87171', name: 'Small Loss (0% to -5%)' },
+                            { from: -0.01, to: 0.01, color: '#cbd5e1', name: 'Break Even' },
+                            { from: 0.01, to: 5, color: '#6ee7b7', name: 'Small Profit (0% to 5%)' },
+                            { from: 5, to: 20, color: '#10b981', name: 'Profit (5% to 20%)' },
+                            { from: 20, to: 10000, color: '#047857', name: 'High Profit (>20%)' }
+        
+                        ]
+                    }
+                }
+            },
+            dataLabels: { 
+                enabled: true, 
+                style: { colors: ['#fff'] },
+                formatter: function(val) { return val !== null ? val.toFixed(1) + "%" : ""; }
+            }
+        }).render();
+
+        // Equity Curve
+        new ApexCharts(document.querySelector("#equityChart"), {
+            ...chartOptions,
+            series: [{ name: 'Cumulative Portfolio Value', data: [10000.0, 10000.0, 10287.47, 8438.36, 10127.86, 9009.12, 9009.12, 8146.99, 7563.24, 7106.5, 6539.1, 6539.1, 6488.26, 5963.67, 6240.22, 7910.46, 10752.99, 12444.46, 17150.27, 14300.49, 13285.18, 13176.48, 12072.01, 11849.14, 13304.86, 14793.24, 13249.14, 12751.57, 17152.08, 16586.88, 15935.97, 19297.07, 16859.0, 18217.86, 27581.38, 33222.57, 44508.21, 72717.57, 66666.88, 68393.92, 60088.84, 60088.84, 60061.81, 74005.97, 64454.92, 76711.81, 74846.97, 74846.97, 74846.97, 66409.06, 62969.66, 58735.17, 58735.17, 58735.17, 57785.52, 52899.1, 48132.31, 47404.15, 38335.34, 37356.31, 49501.63, 47556.47, 53912.93, 50349.47, 50349.47, 53291.12, 51693.08, 51693.08, 50548.76, 67032.75, 73605.0, 82063.22, 85024.11, 124697.83, 110047.21, 112777.01, 113932.69, 113932.69, 106985.74, 99862.29, 106014.6, 138632.74, 160712.69, 138244.69, 130608.07, 130608.07, 130869.27, 164705.62, 157738.11, 174924.84, 162176.38, 157855.68, 146586.79, 146586.79, 146586.79, 144901.29, 144901.29, 137135.86, 148011.91, 147013.19, 147013.19, 146581.34, 156032.27] }],
+            chart: { type: 'area', height: 300, toolbar: { show: false } },
+            colors: ['#3b82f6'],
+            fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.3, opacityTo: 0.0, stops: [0, 100] } },
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 2 },
+            xaxis: { categories: ["2018-01-01", "2018-02-01", "2018-03-04", "2018-04-04", "2018-05-05", "2018-06-05", "2018-07-06", "2018-08-06", "2018-09-06", "2018-10-07", "2018-11-07", "2018-12-08", "2019-01-08", "2019-02-08", "2019-03-11", "2019-04-11", "2019-05-12", "2019-06-12", "2019-07-13", "2019-08-13", "2019-09-13", "2019-10-14", "2019-11-14", "2019-12-15", "2020-01-15", "2020-02-15", "2020-03-17", "2020-04-17", "2020-05-18", "2020-06-18", "2020-07-19", "2020-08-19", "2020-09-19", "2020-10-20", "2020-11-20", "2020-12-21", "2021-01-21", "2021-02-21", "2021-03-24", "2021-04-24", "2021-05-25", "2021-06-25", "2021-07-26", "2021-08-26", "2021-09-26", "2021-10-27", "2021-11-27", "2021-12-28", "2022-01-28", "2022-02-28", "2022-03-31", "2022-05-01", "2022-06-01", "2022-07-02", "2022-08-02", "2022-09-02", "2022-10-03", "2022-11-03", "2022-12-04", "2023-01-04", "2023-02-04", "2023-03-07", "2023-04-07", "2023-05-08", "2023-06-08", "2023-07-09", "2023-08-09", "2023-09-09", "2023-10-10", "2023-11-10", "2023-12-11", "2024-01-11", "2024-02-11", "2024-03-13", "2024-04-13", "2024-05-14", "2024-06-14", "2024-07-15", "2024-08-15", "2024-09-15", "2024-10-16", "2024-11-16", "2024-12-17", "2025-01-17", "2025-02-17", "2025-03-20", "2025-04-20", "2025-05-21", "2025-06-21", "2025-07-22", "2025-08-22", "2025-09-22", "2025-10-23", "2025-11-23", "2025-12-24", "2026-01-24", "2026-02-24", "2026-03-27", "2026-04-27", "2026-05-28", "2026-06-28", "2026-07-29", "2026-08-29"], type: 'category', tickAmount: 6, labels: { style: { colors: '#94a3b8' } } },
+            yaxis: { labels: { formatter: (val) => '$' + val.toLocaleString(), style: { colors: '#94a3b8' } } },
+            grid: { borderColor: '#f1f5f9', strokeDashArray: 4 }
+        }).render();
+
+        // Underwater Drawdown Curve (Negative values)
+        new ApexCharts(document.querySelector("#drawdownChart"), {
+            ...chartOptions,
+            series: [{ name: 'Drawdown', data: [0.0, 0.0, 0.0, -17.97, -1.55, -12.43, -12.43, -20.81, -26.48, -30.92, -36.44, -36.44, -36.93, -42.03, -39.34, -23.11, 0.0, 0.0, 0.0, -16.62, -22.54, -23.17, -29.61, -30.91, -22.42, -13.74, -22.75, -25.65, 0.0, -3.3, -7.09, 0.0, -12.63, -5.59, 0.0, 0.0, 0.0, 0.0, -8.32, -5.95, -17.37, -17.37, -17.4, 0.0, -12.91, 0.0, -2.43, -2.43, -2.43, -13.43, -17.91, -23.43, -23.43, -23.43, -24.67, -31.04, -37.26, -38.2, -50.03, -51.3, -35.47, -38.01, -29.72, -34.37, -34.37, -30.53, -32.61, -32.61, -34.11, -12.62, -4.05, 0.0, 0.0, 0.0, -11.75, -9.56, -8.63, -8.63, -14.2, -19.92, -14.98, 0.0, 0.0, -13.98, -18.73, -18.73, -18.57, 0.0, -4.23, 0.0, -7.29, -9.76, -16.2, -16.2, -16.2, -17.16, -17.16, -21.6, -15.39, -15.96, -15.96, -16.2, -10.8] }],
+            chart: { type: 'area', height: 250, toolbar: { show: false } },
+            colors: ['#ef4444'],
+            fill: { type: 'solid', opacity: 0.2 },
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 2 },
+            xaxis: { categories: ["2018-01-01", "2018-02-01", "2018-03-04", "2018-04-04", "2018-05-05", "2018-06-05", "2018-07-06", "2018-08-06", "2018-09-06", "2018-10-07", "2018-11-07", "2018-12-08", "2019-01-08", "2019-02-08", "2019-03-11", "2019-04-11", "2019-05-12", "2019-06-12", "2019-07-13", "2019-08-13", "2019-09-13", "2019-10-14", "2019-11-14", "2019-12-15", "2020-01-15", "2020-02-15", "2020-03-17", "2020-04-17", "2020-05-18", "2020-06-18", "2020-07-19", "2020-08-19", "2020-09-19", "2020-10-20", "2020-11-20", "2020-12-21", "2021-01-21", "2021-02-21", "2021-03-24", "2021-04-24", "2021-05-25", "2021-06-25", "2021-07-26", "2021-08-26", "2021-09-26", "2021-10-27", "2021-11-27", "2021-12-28", "2022-01-28", "2022-02-28", "2022-03-31", "2022-05-01", "2022-06-01", "2022-07-02", "2022-08-02", "2022-09-02", "2022-10-03", "2022-11-03", "2022-12-04", "2023-01-04", "2023-02-04", "2023-03-07", "2023-04-07", "2023-05-08", "2023-06-08", "2023-07-09", "2023-08-09", "2023-09-09", "2023-10-10", "2023-11-10", "2023-12-11", "2024-01-11", "2024-02-11", "2024-03-13", "2024-04-13", "2024-05-14", "2024-06-14", "2024-07-15", "2024-08-15", "2024-09-15", "2024-10-16", "2024-11-16", "2024-12-17", "2025-01-17", "2025-02-17", "2025-03-20", "2025-04-20", "2025-05-21", "2025-06-21", "2025-07-22", "2025-08-22", "2025-09-22", "2025-10-23", "2025-11-23", "2025-12-24", "2026-01-24", "2026-02-24", "2026-03-27", "2026-04-27", "2026-05-28", "2026-06-28", "2026-07-29", "2026-08-29"], type: 'category', tickAmount: 5, labels: { style: { colors: '#94a3b8' } } },
+            yaxis: { max: 0, labels: { formatter: (val) => val.toFixed(1) + '%', style: { colors: '#94a3b8' } } },
+            grid: { borderColor: '#f1f5f9', strokeDashArray: 4 }
+        }).render();
+
+        // Monthly Returns
+        new ApexCharts(document.querySelector("#monthlyChart"), {
+            ...chartOptions,
+            series: [{ name: 'Return', data: [0.0, 2.87, -17.97, 20.02, -11.05, 0.0, -9.57, -7.17, -6.04, -7.98, 0.0, -0.78, -8.09, 4.64, 26.77, 35.93, 15.73, 37.81, -16.62, -7.1, -0.82, -8.38, -1.85, 12.29, 11.19, -10.44, -3.76, 34.51, -3.3, -3.92, 21.09, -12.63, 8.06, 51.4, 20.45, 33.97, 63.38, -8.32, 2.59, -12.14, 0.0, -0.04, 23.22, -12.91, 19.02, -2.43, 0.0, 0.0, -11.27, -5.18, -6.72, 0.0, 0.0, -1.62, -8.46, -9.01, -1.51, -19.13, -2.55, 32.51, -3.93, 13.37, -6.61, 0.0, 5.84, -3.0, 0.0, -2.21, 32.61, 9.8, 11.49, 3.61, 46.66, -11.75, 2.48, 1.02, 0.0, -6.1, -6.66, 6.16, 30.77, 15.93, -13.98, -5.52, 0.0, 0.2, 25.86, -4.23, 10.9, -7.29, -2.66, -7.14, 0.0, 0.0, -1.15, 0.0, -5.36, 7.93, -0.67, 0.0, -0.29, 6.45] }],
+            chart: { type: 'bar', height: 250, toolbar: { show: false } },
+            colors: [function({ value }) { return value >= 0 ? '#10b981' : '#ef4444'; }],
+            plotOptions: { bar: { borderRadius: 4, columnWidth: '60%' } },
+            dataLabels: { enabled: false },
+            xaxis: { categories: ["2018-02", "2018-03", "2018-04", "2018-05", "2018-06", "2018-07", "2018-08", "2018-09", "2018-10", "2018-11", "2018-12", "2019-01", "2019-02", "2019-03", "2019-04", "2019-05", "2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12", "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09", "2020-10", "2020-11", "2020-12", "2021-01", "2021-02", "2021-03", "2021-04", "2021-05", "2021-06", "2021-07", "2021-08", "2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02", "2022-03", "2022-05", "2022-06", "2022-07", "2022-08", "2022-09", "2022-10", "2022-11", "2022-12", "2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08"], tickAmount: 10, labels: { rotate: -45, hideOverlappingLabels: true, style: { colors: '#94a3b8' } } },
+            yaxis: { labels: { formatter: (val) => val.toFixed(1) + '%', style: { colors: '#94a3b8' } } },
+            grid: { borderColor: '#f1f5f9', strokeDashArray: 4 }
+        }).render();
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+Metadata-Version: 2.4
+Name: open-backtest
+Version: 1.0.0
+Summary: OpenBacktest.ai - AI-powered cryptocurrency backtesting platform.
+Author-email: Kowsigan R <kowsigananalyst@outlook.com>
+License-Expression: MIT
+Project-URL: Homepage, https://kowsiganr.github.io
+Project-URL: Portfolio, https://kowsiganr.github.io
+Project-URL: Repository, https://github.com/kowsiganr/open_backtest
+Project-URL: Bug Tracker, https://github.com/kowsiganr/open_backtest/issues
+Keywords: backtesting,cryptocurrency,trading,AI,ccxt
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Office/Business :: Financial :: Investment
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.24
+Requires-Dist: polars>=0.20
+Requires-Dist: requests>=2.31
+Requires-Dist: PySide6>=6.6
+Requires-Dist: plotly>=5.18
+Requires-Dist: ccxt>=4.0
+Requires-Dist: cryptography>=41.0
+Requires-Dist: scipy>=1.11
+Provides-Extra: talib
+Requires-Dist: TA-Lib>=0.4; extra == "talib"
+
+﻿# open-backtest
+
+**OpenBacktest.ai** — AI-powered cryptocurrency backtesting platform.
+
+Single-file Python application powered by:
+- 🤖 **OpenRouter AI** (Claude, GPT-4, etc.)
+- 🖥️ **PySide6** desktop UI
+- 📈 **Plotly** interactive charts
+- 📡 **CCXT** live market data
+- ⚡ **Polars** high-performance data processing
+- 📊 **TA-Lib** technical indicators
+
+## Install
+
+```bash
+pip install open-backtest
+```
+
+## Run
+
+```bash
+open_backtest
+# or
+python -m open_backtest
+```
+
+## License
+
+MIT © [Kowsigan R](https://kowsiganr.github.io)
